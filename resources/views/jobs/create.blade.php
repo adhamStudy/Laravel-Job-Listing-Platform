@@ -1,7 +1,4 @@
-@extends('layout')
-    
-@section('content')
-    
+<x-layout>
 <h1>Create a new Job</h1>
    
 <form action="{{route('jobs.store')}}" method="POST">
@@ -11,5 +8,4 @@
  <button type="submit">Submit</button>
 
 </form>
-
-@endsection
+</x-layout>

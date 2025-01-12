@@ -1,9 +1,5 @@
-@extends('layout')
-    
-@section('content')
-    
-
-
+<x-layout>
+<x-slot name="title"> Browse Jobs</x-slot>
 <h1>
      available Jobs
     </h1>
@@ -24,4 +20,4 @@
     
        
     </ul>
-    @endsection
+</x-layout>

@@ -20,6 +20,7 @@ class JobController extends Controller
         return view('jobs.index', compact('jobs'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
@@ -28,15 +29,19 @@ class JobController extends Controller
         return view('jobs.create');
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $jobs = [];
-        return view('jobs.index', compact('jobs'));
+        return view('jobs.store', compact('jobs'));
     }
-
+    public function saved()
+    {
+        return view('jobs.saved');
+    }
     /**
      * Display the specified resource.
      */
