@@ -17,7 +17,7 @@
     @if(request()->is('/'))
     <x-hero title="Find Your Dream Job" />
     @endif
-    <main>
+    <main class="container mx-auto">  
        {{$slot}}
     </main>
     <script src="{{asset('/js/script.js')}}"></script>

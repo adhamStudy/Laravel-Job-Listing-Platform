@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Job;
 
 class JobController extends Controller
 {
@@ -11,13 +12,8 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = [
-            'Web developer',
-            'Database Admin',
-            'Software Engineer',
-            'Systems Analyst'
-        ];
-        return view('jobs.index', compact('jobs'));
+        $jobs = Job::all();
+        return view('jobs.index')->with('jobs', $jobs);
     }
 
 
@@ -35,8 +31,15 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        $jobs = [];
-        return view('jobs.store', compact('jobs'));
+        $validatedData = $request->validate([
+            'title' => 'required | max:255 | string',
+            'description' => 'required | string'
+        ]);
+        Job::create([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description']
+        ]);
+        return redirect('/jobs');
     }
     public function saved()
     {
@@ -45,9 +48,10 @@ class JobController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Job $job)
     {
-        //
+
+        return view('jobs.show')->with('job', $job);
     }
 
     /**
@@ -74,3 +78,6 @@ class JobController extends Controller
         //
     }
 }
+// list command to create 4 job listings from php artisan tinker
+// $jobs = [
+//     ['title' => 'Job 1', 'description' => 'This is job 1'],
