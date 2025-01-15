@@ -1,27 +1,13 @@
 <x-layout>
 <x-slot name="title"> Browse Jobs</x-slot>
 <h1>
-     available Jobs
+     All Jobs
     </h1>
-    <ul>
-    @if (count($jobs)==0)
-        
-        <h3>No Jobs available</h3>
-        @else
-          @foreach ($jobs as $job)
-        <li>
-            <a href="{{route('jobs.show',$job->id)}}">
-              
-                {{$job->title}}
-            </a>
-        - {{$job->description}}
-       </li>  
-        @endforeach
-    
-        
-    @endif
-
-    
-       
-    </ul>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    @forelse($jobs as $job)
+       <x-job-card :job="$job" />
+    @empty
+    <p>No jobs available</p>
+    @endforelse
+</div>
 </x-layout>
