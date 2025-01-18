@@ -16,9 +16,24 @@
    <x-header/>
     @if(request()->is('/'))
     <x-hero title="Find Your Dream Job" />
+    <x-top-banner></x-top-banner>
     @endif
     <main class="container mx-auto my-6">  
+
+        {{-- Display alert Messages --}}
+  
+        @if(session('success'))
+        <x-alert type="success" message="{{session('success')}}"></x-alert>
+        @endif
+
+        @if(session('error'))
+        <x-alert type="error" message="{{session('error')}}"></x-alert>
+        @endif
+
        {{$slot}}
+       @if(request()->is('/'))
+   <x-bottom-banner/>
+    @endif
     </main>
     <script src="{{asset('/js/script.js')}}"></script>
 </body>

@@ -1,11 +1,14 @@
 @props(['job'])
 <div class="rounded-lg shadow-md bg-white p-4">
     <div class="flex items-center space-between gap-4">
+        @if ($job->company_logo)
         <img
-            src="/images/{{$job->company_logo}}"
-            alt="{{$job->company_name}}"
-            class="w-14"
-        />
+        src="/storage/{{$job->company_logo}}"
+        alt="{{$job->company_name}}"
+        class="w-14"
+    /> 
+        @endif
+        
         <div>
             <h2 class="text-xl font-semibold">
               {{ $job->title}}
