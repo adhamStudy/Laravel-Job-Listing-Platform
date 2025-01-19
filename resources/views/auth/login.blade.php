@@ -11,7 +11,7 @@
 
         <button type="submit" class="w-full bg-blue-500 py-2 px-4 font-bold hover:bg-blue-700 focus:outline-none     text-white rounded shadow-sm">Login</button>
 
-        <p> Don't have an account ? <a href="/login">Register</a></p>
+        <p> Don't have an account ? <a href="/register">Register</a></p>
 
 
         </form>

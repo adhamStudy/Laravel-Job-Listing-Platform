@@ -7,12 +7,15 @@ use App\Models\Job;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class JobController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    use AuthorizesRequests;
     public function index()
     {
         $jobs = Job::all();
@@ -25,6 +28,9 @@ class JobController extends Controller
      */
     public function create()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must login to create your own job');
+        }
         return view('jobs.create');
     }
 
@@ -57,7 +63,7 @@ class JobController extends Controller
         ]);
 
         // Hardcoded User ID
-        $validatedData['user_id'] = 1;
+        $validatedData['user_id'] = Auth::user()->id;
 
         // check for image
         if ($request->hasFile('company_logo')) {
@@ -90,6 +96,8 @@ class JobController extends Controller
      */
     public function edit(Job $job): View
     {
+        // Check if user is authorized 
+        $this->authorize('update', $job);
         return view('jobs.edit')->with('job', $job);
     }
 
@@ -98,6 +106,8 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
+        // Check if user is authorized 
+        $this->authorize('update', $job);
 
         $validatedData = $request->validate([
             'title' => 'required | max:255 | string',
@@ -145,6 +155,8 @@ class JobController extends Controller
      */
     public function destroy(Job $job): RedirectResponse
     {
+        // Check if user is authorized 
+        $this->authorize('delete', $job);
         if ($job->company_logo) {
             Storage::delete('public/logos/' . $job->company_logo);
         }

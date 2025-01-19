@@ -17,6 +17,10 @@ class JobSeeder extends Seeder
         // Load Job Listings from the file
         $filePath = database_path('seeders/data/job_listings.php');
 
+        // Get test user ID
+
+
+
         if (!file_exists($filePath)) {
             echo "Error: File not found at $filePath\n";
             return;
@@ -28,9 +32,10 @@ class JobSeeder extends Seeder
             echo "Error: No job listings found in the file.\n";
             return;
         }
+        $testUserId = User::where('email', 'test@test.com')->value('id');
 
-        // Get user Ids from user Model
-        $userIds = User::pluck('id')->toArray();
+        // Get all other users from user Model
+        $userIds = User::where('email', '!=', 'test@test.com')->pluck('id')->toArray();
 
         if (empty($userIds)) {
             echo "No users found. Please create users first.\n";
@@ -39,9 +44,15 @@ class JobSeeder extends Seeder
 
         // Prepare the data for insertion
         $data = [];
-        foreach ($jobListings as $listing) {
+        foreach ($jobListings as $index => &$listing) {
+            if ($index < 2) {
+                // Assign first two listings to the test user
+                $listing['user_id'] = $testUserId;
+            }
             // Assign a random user_id
-            $listing['user_id'] = $userIds[array_rand($userIds)];
+            else {
+                $listing['user_id'] = $userIds[array_rand($userIds)];
+            }
 
             // Add timestamps
             $listing['created_at'] = now();
